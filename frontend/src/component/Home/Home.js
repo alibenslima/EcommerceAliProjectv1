@@ -24,9 +24,7 @@ import { useAlert } from "react-alert";
 const Home = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
-  const { loading, error, products, productsCount } = useSelector(
-    (state) => state.products
-  );
+  const { loading, error, products } = useSelector((state) => state.products);
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -41,7 +39,7 @@ const Home = () => {
         <Loader />
       ) : (
         <Fragment>
-          <MetaData>title="Best Deal"</MetaData>
+          <MetaData>title="Products --Best Deal"</MetaData>
           <div className="banner">
             <p>Bienvenue à Best Deal</p>
             <h1>TROUVEZ DES PRODUITS INCROYABLES CI-DESSOUS</h1>

@@ -15,16 +15,28 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
 exports.getAllProducts = catchAsyncErrors(async (req, res, next) => {
   //  return next(new ErrorHander("This is my temp error", 500)); pour tester error in useEffect
-  const resultPerPage = 15;
+  const resultPerPage = 8;
   const productsCount = await Product.countDocuments();
   const apiFeature = new ApiFeatures(Product.find(), req.query)
     .search()
-    .filter()
-    .pagination(resultPerPage);
+    .filter();
+  //.pagination(resultPerPage); i will to change pagination to pagination with filter
 
-  const products = await apiFeature.query;
+  let products = await apiFeature.query;
 
-  res.status(200).json({ success: true, products, productsCount });
+  let filteredProductsCount = products.length;
+
+  apiFeature.pagination(resultPerPage);
+
+  products = await apiFeature.query.clone();
+
+  res.status(200).json({
+    success: true,
+    products,
+    productsCount,
+    resultPerPage,
+    filteredProductsCount,
+  });
 });
 
 // GET Product Details
